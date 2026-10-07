@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="bg" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бар „Инсайд“ | Inside Bar Kardzhali</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a0b0e',
+                            card: '#13161f',
+                            border: '#222736',
+                            gold: '#f59e0b',
+                            goldHover: '#d97706',
+                            cyan: '#06b6d4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0a0b0e;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-nav {
+            background: rgba(10, 11, 14, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .glass-card {
+            background: rgba(19, 22, 31, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-gold {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+        }
+        .glow-gold-hover:hover {
+            box-shadow: 0 0 35px rgba(245, 158, 11, 0.45);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0b0e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222736;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-100 antialiased selection:bg-amber-500 selection:text-black">
+
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-brand-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-brand-dark font-black text-xl shadow-lg glow-gold group-hover:scale-105 transition-transform">
+                    <img src="pic2/logo.jfif">
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-200 to-amber-400 bg-clip-text text-transparent">Бар „Инсайд“</span>
+                    <span class="block text-xs text-amber-500 font-medium tracking-widest uppercase">Inside Bar</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#hero" class="text-gray-300 hover:text-amber-400 transition-colors" data-i18n="nav_home">Начало</a>
+                <a href="#about" class="text-gray-300 hover:text-amber-400 transition-colors" data-i18n="nav_about">За нас</a>
+                <a href="#menu" class="text-gray-300 hover:text-amber-400 transition-colors" data-i18n="nav_menu">Меню</a>
+                <a href="#atmosphere" class="text-gray-300 hover:text-amber-400 transition-colors" data-i18n="nav_atmosphere">Атмосфера</a>
+                <a href="#reviews" class="text-gray-300 hover:text-amber-400 transition-colors" data-i18n="nav_reviews">Отзиви</a>
+                <a href="#contact" class="text-gray-300 hover:text-amber-400 transition-colors" data-i18n="nav_contact">Контакти</a>
+            </nav>
+
+            <!-- Actions (Language Switch & Reserve Button) -->
+            <div class="hidden md:flex items-center space-x-4">
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg bg-brand-card border border-brand-border text-xs font-semibold hover:border-amber-500 transition-all flex items-center space-x-1.5 text-gray-300">
+                    <i class="fa-solid fa-globe text-amber-500"></i>
+                    <span id="lang-label">EN / БГ</span>
+                </button>
+                <!-- Reserve CTA -->
+                <a href="#reserve" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark font-bold text-sm shadow-lg glow-gold glow-gold-hover transition-all transform hover:-translate-y-0.5" data-i18n="btn_reserve">
+                    Резервирай маса
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center space-x-3 md:hidden">
+                <button onclick="toggleLanguage()" class="px-2.5 py-1 rounded-lg bg-brand-card border border-brand-border text-xs font-semibold text-gray-300">
+                    <span id="lang-label-mob">EN/БГ</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-amber-400 p-2 focus:outline-none">
+                    <i id="mobile-menu-icon" class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-brand-border px-6 py-6 space-y-4">
+            <a href="#hero" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-amber-400 font-medium" data-i18n="nav_home">Начало</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-amber-400 font-medium" data-i18n="nav_about">За нас</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-amber-400 font-medium" data-i18n="nav_menu">Меню</a>
+            <a href="#atmosphere" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-amber-400 font-medium" data-i18n="nav_atmosphere">Атмосфера</a>
+            <a href="#reviews" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-amber-400 font-medium" data-i18n="nav_reviews">Отзиви</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-amber-400 font-medium" data-i18n="nav_contact">Контакти</a>
+            <div class="pt-2">
+                <a href="#reserve" onclick="toggleMobileMenu()" class="block w-full text-center py-3 rounded-xl bg-amber-500 text-brand-dark font-bold shadow-lg" data-i18n="btn_reserve">Резервирай маса</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+        <!-- Background decorative ambient lighting -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card border border-amber-500/30 text-amber-400 text-xs sm:text-sm font-semibold mb-6 animate-pulse">
+                <i class="fa-solid fa-fire text-amber-500"></i>
+                <span data-i18n="hero_badge">Център на Кърджали • Уютна лятна градина</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                <span data-i18n="hero_title_1">Вашето любимо място в сърцето на</span> <br>
+                <span class="bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">Кърджали</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-lg sm:text-xl text-gray-300 mb-10 font-light" data-i18n="hero_subtitle">
+                Насладете се на изискано кафе, ароматни коктейли, изкушаващи предложения от кухнята и неповторима младежка атмосфера.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#menu" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark font-bold text-base shadow-xl glow-gold glow-gold-hover transition-all flex items-center justify-center space-x-3">
+                    <i class="fa-solid fa-utensils"></i>
+                    <span data-i18n="btn_view_menu">Разгледайте Менюто</span>
+                </a>
+                <a href="#reserve" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card border border-brand-border text-white font-semibold text-base hover:border-amber-400 transition-all flex items-center justify-center space-x-3">
+                    <i class="fa-solid fa-calendar-check text-amber-500"></i>
+                    <span data-i18n="btn_reserve">Запази маса</span>
+                </a>
+            </div>
+
+            <!-- Quick Info Bar Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto text-left">
+                <div class="glass-card p-5 rounded-2xl border border-brand-border flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xs text-gray-400 uppercase tracking-wider font-semibold" data-i18n="info_hours_title">Работно време</h3>
+                        <p class="text-sm font-bold text-gray-100" data-i18n="info_hours_desc">Отворено • Затваря в 01:00 ч.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 rounded-2xl border border-brand-border flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xs text-gray-400 uppercase tracking-wider font-semibold" data-i18n="info_rating_title">Google Рейтинг</h3>
+                        <p class="text-sm font-bold text-gray-100">3.8 / 5.0 <span class="text-xs font-normal text-gray-400">(114 отзива)</span></p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 rounded-2xl border border-brand-border flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xs text-gray-400 uppercase tracking-wider font-semibold" data-i18n="info_loc_title">Локация</h3>
+                        <p class="text-sm font-bold text-gray-100">ул. „Стефан Караджа“ 8</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 bg-brand-card/30 border-y border-brand-border relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Column -->
+                <div>
+                    <span class="text-amber-500 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="about_tag">ЗА НАС И АТМОСФЕРАТА</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6" data-i18n="about_title">
+                        Мястото, където градският стил среща уюта
+                    </h2>
+                    <p class="text-gray-300 leading-relaxed mb-6 font-light" data-i18n="about_desc1">
+                        Разположен на ул. „Стефан Караджа“ 8 в самия център на Кърджали, бар „Инсайд“ е перфектното кътче за сутрешно кафе, следобедни срещи с приятели или незабравими вечери под звездите в нашата климатизирана и изключително чиста лятна градина.
+                    </p>
+                    <p class="text-gray-300 leading-relaxed mb-8 font-light" data-i18n="about_desc2">
+                        С любезен персонал, модерна младежка атмосфера, страхотна музика и богато разнообразие от вкусни предложения, ние се грижим всеки посетител да се чувства като у дома си.
+                    </p>
+
+                    <!-- Feature checkmarks -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-200" data-i18n="feat_garden">Климатизирана лятна градина</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-200" data-i18n="feat_coffee">Отлично кафе и напитки</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-200" data-i18n="feat_sushi">Суши и свежи салати</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-200" data-i18n="feat_staff">Любезен и бърз персонал</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Gallery Preview Column -->
+                <div id="atmosphere" class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <div class="glass-card p-3 rounded-2xl overflow-hidden border border-brand-border group">
+                            <img src="pic2/garden.jpg" alt="Inside Bar Interior" class="w-full h-70 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/13161f/f59e0b?text=Inside+Bar';">
+                        </div>
+                        <div class="glass-card p-3 rounded-2xl overflow-hidden border border-brand-border group">
+                            <img src="pic2/sushi1.jpg" alt="Cocktails" class="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x300/13161f/f59e0b?text=Cocktails';">
+                        </div>
+                    </div>
+                    <div class="space-y-4 pt-6">
+                        <div class="glass-card p-3 rounded-2xl overflow-hidden border border-brand-border group">
+                            <img src="pic2/kafe.png" alt="Food dishes" class="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x300/13161f/f59e0b?text=Food';">
+                        </div>
+                        <div class="glass-card p-3 rounded-2xl overflow-hidden border border-brand-border group">
+                            <img src="pic2/kokteil.jpg" alt="Coffee & Atmosphere" class="w-full h-70 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/13161f/f59e0b?text=Coffee';">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-amber-500 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="menu_tag">РАЗНООБРАЗНО МЕНЮ</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4" data-i18n="menu_title">Вкусове, които ви привличат</h2>
+                <p class="text-gray-300 text-base sm:text-lg font-light" data-i18n="menu_subtitle">
+                    Всички цени са посочени в евро (€) съгласно актуалните стандарти. Насладете се на селектирани ястия, напитки и десерти.
+                </p>
+
+                <!-- Menu Category Filter Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mt-8">
+                    <button onclick="filterMenu('all')" class="menu-tab active px-5 py-2.5 rounded-xl bg-amber-500 text-brand-dark font-bold text-sm transition-all shadow-md" data-category="all" data-i18n="cat_all">Всички</button>
+                    <button onclick="filterMenu('coffee')" class="menu-tab px-5 py-2.5 rounded-xl bg-brand-card border border-brand-border text-gray-300 font-medium text-sm hover:border-amber-400 transition-all" data-category="coffee" data-i18n="cat_coffee">Кафе & Напитки</button>
+                    <button onclick="filterMenu('food')" class="menu-tab px-5 py-2.5 rounded-xl bg-brand-card border border-brand-border text-gray-300 font-medium text-sm hover:border-amber-400 transition-all" data-category="food" data-i18n="cat_food">Сандвичи & Тортили</button>
+                    <button onclick="filterMenu('pizza')" class="menu-tab px-5 py-2.5 rounded-xl bg-brand-card border border-brand-border text-gray-300 font-medium text-sm hover:border-amber-400 transition-all" data-category="pizza" data-i18n="cat_pizza">Пици & Ризото</button>
+                    <button onclick="filterMenu('sushi')" class="menu-tab px-5 py-2.5 rounded-xl bg-brand-card border border-brand-border text-gray-300 font-medium text-sm hover:border-amber-400 transition-all" data-category="sushi" data-i18n="cat_sushi">Суши & Азиатски</button>
+                    <button onclick="filterMenu('desserts')" class="menu-tab px-5 py-2.5 rounded-xl bg-brand-card border border-brand-border text-gray-300 font-medium text-sm hover:border-amber-400 transition-all" data-category="desserts" data-i18n="cat_desserts">Десерти & Шейкове</button>
+                </div>
+            </div>
+
+            <!-- Menu Grid Container -->
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Item 1: Club Sandwich -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="food">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold" data-i18n="item_pop">Популярно</span>
+                            <span class="text-xl font-extrabold text-amber-400">€6.50</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Клуб Сандвич / Club Sandwich</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_club">Хрупкав тост хляб, пилешко филе, сочен бекон, прясно яйце, домат, маруля и майонезен сос, сервиран с пържени картофки.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-utensils mr-1 text-amber-500"></i> Първокласни съставки</span>
+                        <button onclick="quickOrder('Клуб Сандвич')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 2: Forest Fruit Smoothie -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="coffee">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold" data-i18n="item_fresh">Свежо</span>
+                            <span class="text-xl font-extrabold text-amber-400">€4.20</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Смути Горски Плодове / Forest Fruit Smoothie</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_smoothie">Освежаващ микс от диви горски плодове, боровинки, малини, ягоди и натурален йогурт.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-mug-hot mr-1 text-amber-500"></i> Витаминна бомба</span>
+                        <button onclick="quickOrder('Смути Горски Плодове')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 3: Chicken Tortilla -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="food">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold" data-i18n="item_pop">Популярно</span>
+                            <span class="text-xl font-extrabold text-amber-400">€7.00</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Тортила С Пилешко Филе / Chicken Tortilla</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_tortilla">Запечена царевична тортила с嫩 пилешко филе, топен кашкавал, пресни чушки, царевица и специален чеснов сос.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-fire mr-1 text-amber-500"></i> Топло предястие / Основно</span>
+                        <button onclick="quickOrder('Тортила С Пилешко Филе')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 4: Margherita Pizza -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="pizza">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold" data-i18n="item_classic">Класика</span>
+                            <span class="text-xl font-extrabold text-amber-400">€7.50</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Пица Маргарита / Margherita Pizza</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_pizza">Автентичен италиански блат, доматен сос от узрели домати, прясна моцарела и ароматни листа босилек.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-pizza-slice mr-1 text-amber-500"></i> Изискан вкус</span>
+                        <button onclick="quickOrder('Пица Маргарита')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 5: Sushi & Asian Bites -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="sushi">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-semibold" data-i18n="item_spec">Специалитет</span>
+                            <span class="text-xl font-extrabold text-amber-400">€11.50</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Инсайд Суши Селекция (8 бр.)</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_sushi">Най-доброто суши в Кърджали! Филаделфия ролове със сьомга, авокадо и хрупкави зеленчуци, поднесени с уасаби и джинджифил.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-fish mr-1 text-amber-500"></i> Хит на клиентите</span>
+                        <button onclick="quickOrder('Инсайд Суши Селекция')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 6: Risotto with Vegetables -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="pizza">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold" data-i18n="item_veg">Вегетарианско</span>
+                            <span class="text-xl font-extrabold text-amber-400">€8.00</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Ризото със Зеленчуци / Vegetable Rice</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_risotto">Ароматно и сочно ризото със сезонни пресни зеленчуци, масло и пармезан (отзиви: вкусно ястие с ориз и зеленчуци!).</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-seedling mr-1 text-amber-500"></i> Прясно приготвено</span>
+                        <button onclick="quickOrder('Ризото със Зеленчуци')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 7: Cheesecake -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="desserts">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-semibold" data-i18n="item_sweet">Десерт</span>
+                            <span class="text-xl font-extrabold text-amber-400">€4.50</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Чийзкейк / Homemade Cheesecake</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_cheesecake">Нежен домашен чийзкейк с хрупкава бисквитена основа и топинг от горски плодове.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-cake-candles mr-1 text-amber-500"></i> Домашно приготвен</span>
+                        <button onclick="quickOrder('Чийзкейк')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 8: Melba & Chocolate Shake -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="desserts">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-semibold" data-i18n="item_sweet">Десерт</span>
+                            <span class="text-xl font-extrabold text-amber-400">€5.00</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Мелба & Шейк Шоколад</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_melba">Божествена мелба с богат белгийски шоколадов шейк, сметана и плодове.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-ice-cream mr-1 text-amber-500"></i> Любимо на младежите</span>
+                        <button onclick="quickOrder('Мелба & Шейк Шоколад')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+
+                <!-- Item 9: Heineken 0.0 Beer -->
+                <div class="menu-item glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between group hover:border-amber-500/50 transition-all" data-category="coffee">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold" data-i18n="item_drink">Напитки</span>
+                            <span class="text-xl font-extrabold text-amber-400">€3.20</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-amber-400 transition-colors">Heineken 0.0 Beer</h3>
+                        <p class="text-gray-400 text-sm mt-2 font-light" data-i18n="desc_beer">Освежаваща безалкохолна бира Heineken с наситен малцов вкус и охладена бутилка.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-beer-mug-empty mr-1 text-amber-500"></i> Студено и освежаващо</span>
+                        <button onclick="quickOrder('Heineken 0.0 Beer')" class="text-amber-400 font-semibold hover:underline" data-i18n="btn_order">Поръчай към маса</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reserve" class="py-24 bg-brand-card/30 border-y border-brand-border relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card p-8 sm:p-12 rounded-3xl border border-brand-border shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center max-w-xl mx-auto mb-10">
+                    <span class="text-amber-500 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="res_tag">ОНЛАЙН РЕЗЕРВАЦИЯ</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight mb-3" data-i18n="res_title">Запазете своята маса</h2>
+                    <p class="text-gray-300 text-sm font-light" data-i18n="res_subtitle">
+                        Попълнете формуляра по-долу за бърза резервация в бар „Инсайд“. Очакваме ви!
+                    </p>
+                </div>
+
+                <form id="reservation-form" onsubmit="handleReservation(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2" data-i18n="form_name">Вашето име</label>
+                            <input type="text" id="res-name" required class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500 transition-colors" placeholder="Иван Иванов">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2" data-i18n="form_phone">Телефон за връзка</label>
+                            <input type="tel" id="res-phone" required class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500 transition-colors" placeholder="088 123 4567">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2" data-i18n="form_date">Дата</label>
+                            <input type="date" id="res-date" required class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2" data-i18n="form_time">Час</label>
+                            <input type="time" id="res-time" required class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2" data-i18n="form_guests">Брой гости</label>
+                            <select id="res-guests" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500 transition-colors">
+                                <option value="1">1 гост</option>
+                                <option value="2" selected>2 гости</option>
+                                <option value="4">4 гости</option>
+                                <option value="6">6 гости</option>
+                                <option value="8+">8+ гости (Група)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2" data-i18n="form_notes">Допълнителни изисквания (напр. лятна градина)</label>
+                        <textarea id="res-notes" rows="3" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500 transition-colors" placeholder="Желая маса в лятната градина..."></textarea>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <button type="submit" class="w-full sm:w-auto px-10 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark font-bold text-base shadow-lg glow-gold glow-gold-hover transition-all" data-i18n="form_submit">
+                            Потвърди резервацията
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Success notification box -->
+                <div id="reservation-success" class="hidden mt-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-center font-medium">
+                    <i class="fa-solid fa-circle-check mr-2"></i> Вашата резервация е приета успешно! Очакваме ви в бар „Инсайд“.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-amber-500 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="rev_tag">ОТЗИВИ И РЕЙТИНГ</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4" data-i18n="rev_title">Какво качват и казват нашите клиенти</h2>
+                <p class="text-gray-300 text-base font-light">
+                    Рейтинг 3.8 от 5 въз основа на 114 Google отзива. Споделете вашите впечатления!
+                </p>
+            </div>
+
+            <!-- Testimonials Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Review 1 -->
+                <div class="glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-1 text-amber-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm font-light italic mb-6">
+                            "Best sushi I’ve tried in Kardzhali. The flavors were very good overall. I’d definitely come back."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-brand-border">
+                        <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-sm">
+                            CG
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-100">Camila Guerrero</h4>
+                            <span class="text-xs text-gray-400">Местен гид • Google Отзив</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-1 text-amber-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm font-light italic mb-6">
+                            "Добро младежко заведение в центъра на Кърджали. Вкусна храна и лимонада. Добре климатизирана лятна градина, чисто и уютно."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-brand-border">
+                        <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center text-sm">
+                            MK
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-100">Mihaela Kircheva</h4>
+                            <span class="text-xs text-gray-400">Местен гид • Google Отзив</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-card p-6 rounded-2xl border border-brand-border flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-1 text-amber-400 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star text-gray-500"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm font-light italic mb-6">
+                            "Много приятно и удобно място за кафе. Любезен персонал и страхотно местоположение в центъра."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-brand-border">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-sm">
+                            YI
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-100">Yoana Ivanova</h4>
+                            <span class="text-xs text-gray-400">Клиент • Google Отзив</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave Review Form Box -->
+            <div class="max-w-2xl mx-auto glass-card p-8 rounded-2xl border border-brand-border">
+                <h3 class="text-xl font-bold mb-4 text-center" data-i18n="leave_rev_title">Напишете вашия отзив</h3>
+                <form onsubmit="submitReview(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1" data-i18n="form_name">Вашето име</label>
+                        <input type="text" id="rev-name" required class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1" data-i18n="rev_score">Оценка (1 до 5 звезди)</label>
+                        <select id="rev-rating" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500">
+                            <option value="5">⭐⭐⭐⭐⭐ (5 - Отлично)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 - Много добре)</option>
+                            <option value="3">⭐⭐⭐ (3 - Добре)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1" data-i18n="rev_text">Вашият коментар</label>
+                        <textarea id="rev-comment" rows="3" required class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-amber-500" placeholder="Споделете мнението си..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 text-brand-dark font-bold text-sm shadow-lg hover:bg-amber-400 transition-colors" data-i18n="rev_submit">
+                        Изпрати отзив
+                    </button>
+                </form>
+                <div id="review-success" class="hidden mt-4 p-3 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs text-center font-medium">
+                    Благодарим ви за отзива! Той беше успешно изпратен.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 bg-brand-card/30 border-t border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Info Column -->
+                <div>
+                    <span class="text-amber-500 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="cont_tag">КОНТАКТИ И ЛОКАЦИЯ</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight mb-6" data-i18n="cont_title">Заповядайте при нас</h2>
+                    <p class="text-gray-300 font-light mb-8" data-i18n="cont_subtitle">
+                        Намираме се на комуникативно място в центъра на Кърджали. Очакваме ви за кафе, срещи и вечерни коктейли!
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0 mt-1">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-100 uppercase tracking-wider" data-i18n="cont_addr_title">Адрес</h3>
+                                <p class="text-gray-300 text-sm mt-1">Кърджали Център, ул. „Стефан Караджа“ 8, 6600 Кърджали</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0 mt-1">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-100 uppercase tracking-wider" data-i18n="cont_phone_title">Телефон за резервации</h3>
+                                <p class="text-gray-300 text-sm mt-1 font-semibold text-amber-400">087 710 1102</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0 mt-1">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-100 uppercase tracking-wider" data-i18n="cont_hours_title">Работно време</h3>
+                                <p class="text-gray-300 text-sm mt-1" data-i18n="cont_hours_desc">Понеделник - Неделя: 08:00 - 01:00 ч. (Отворено)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Action Buttons -->
+                    <div class="flex flex-wrap gap-4 mt-8">
+                        <a href="tel:0877101102" class="px-6 py-3 rounded-xl bg-amber-500 text-brand-dark font-bold text-sm shadow-lg hover:bg-amber-400 transition-colors flex items-center space-x-2">
+                            <i class="fa-solid fa-phone"></i>
+                            <span data-i18n="btn_call">Обадете се сега</span>
+                        </a>
+                        <a href="https://maps.google.com/?q=Stefan+Karadzha+8+Kardzhali" target="_blank" class="px-6 py-3 rounded-xl glass-card border border-brand-border text-white font-semibold text-sm hover:border-amber-400 transition-colors flex items-center space-x-2">
+                            <i class="fa-solid fa-map-location-dot text-amber-500"></i>
+                            <span data-i18n="btn_directions">Google Упътвания</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Map / Visual Simulation Column -->
+                <div class="glass-card p-4 rounded-3xl border border-brand-border h-[400px] flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-dark/80 to-transparent z-10 pointer-events-none"></div>
+                    <!-- Embed interactive map representation / placeholder iframe -->
+                    <iframe class="w-full h-full rounded-2xl filter contrast-125 opacity-80" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2975.059296683832!2d25.3725!3d41.6433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14ad2f34710bb3a1%3A0x82a937dc2184ef42!2sul.+%22Stefan+Karadzha%22+8%2C+6600+Kardzhali+Center%2C+Kardzhali!5e0!3m2!1sen!2sbg!4v1650000000000!5m2!1sen!2sbg" allowfullscreen="" loading="lazy"></iframe>
+                    
+                    <div class="absolute bottom-6 left-6 right-6 z-20 glass-card p-4 rounded-xl border border-brand-border flex items-center justify-between">
+                        <div>
+                            <span class="block text-xs font-semibold text-amber-500" data-i18n="map_loc_name">Бар „Инсайд“</span>
+                            <span class="text-xs text-gray-300">ул. „Стефан Караджа“ 8, Кърджали</span>
+                        </div>
+                        <a href="https://maps.google.com/?q=Stefan+Karadzha+8+Kardzhali" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-500 text-brand-dark text-xs font-bold hover:bg-amber-400 transition-colors" data-i18n="btn_open_map">
+                            Отвори карта
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-dark border-t border-brand-border py-12 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-brand-dark font-black"><img src="pic2/logo.jfif"></div>
+                <span class="text-white font-bold tracking-tight">Бар „Инсайд“ (Inside Bar)</span>
+            </div>
+            <p class="text-xs text-gray-500" data-i18n="footer_rights">
+                © 2026 Бар „Инсайд“, Кърджали. Всички права запазени.
+            </p>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="w-9 h-9 rounded-xl glass-card border border-brand-border flex items-center justify-center text-gray-300 hover:text-amber-400 hover:border-amber-400 transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="w-9 h-9 rounded-xl glass-card border border-brand-border flex items-center justify-center text-gray-300 hover:text-amber-400 hover:border-amber-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="tel:0877101102" class="w-9 h-9 rounded-xl glass-card border border-brand-border flex items-center justify-center text-gray-300 hover:text-amber-400 hover:border-amber-400 transition-colors"><i class="fa-solid fa-phone"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set minimum date for reservation to today
+        const todayStr = new Date().toISOString().split('T')[0];
+        document.getElementById('res-date').value = todayStr;
+        document.getElementById('res-date').min = todayStr;
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        }
+
+        // Menu Filtering Logic
+        function filterMenu(category) {
+            const buttons = document.querySelectorAll('.menu-tab');
+            buttons.forEach(btn => {
+                if(btn.dataset.category === category) {
+                    btn.classList.add('bg-amber-500', 'text-brand-dark', 'font-bold');
+                    btn.classList.remove('bg-brand-card', 'border', 'border-brand-border', 'text-gray-300');
+                } else {
+                    btn.classList.remove('bg-amber-500', 'text-brand-dark', 'font-bold');
+                    btn.classList.add('bg-brand-card', 'border', 'border-brand-border', 'text-gray-300');
+                }
+            });
+
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                if(category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Quick Order simulation
+        function quickOrder(itemName) {
+            showNotification(`Артикулът "${itemName}" беше добавен към поръчката ви към маса! Очаквайте сервиране.`);
+        }
+
+        // Handle Reservation Form
+        function handleReservation(e) {
+            e.preventDefault();
+            const name = document.getElementById('res-name').value;
+            const date = document.getElementById('res-date').value;
+            const time = document.getElementById('res-time').value;
+            const guests = document.getElementById('res-guests').value;
+
+            const successBox = document.getElementById('reservation-success');
+            successBox.classList.remove('hidden');
+            successBox.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Благодарим ви, ${name}! Вашата маса за ${guests} гости на ${date} от ${time} ч. е успешно запазена.`;
+            
+            document.getElementById('reservation-form').reset();
+            document.getElementById('res-date').value = todayStr;
+            setTimeout(() => {
+                successBox.classList.add('hidden');
+            }, 6000);
+        }
+
+        // Submit Review simulation
+        function submitReview(e) {
+            e.preventDefault();
+            const revSuccess = document.getElementById('review-success');
+            revSuccess.classList.remove('hidden');
+            setTimeout(() => {
+                revSuccess.classList.add('hidden');
+            }, 5000);
+            e.target.reset();
+        }
+
+        // Custom notification toast
+        function showNotification(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-5 right-5 z-50 glass-card px-6 py-4 rounded-xl border border-amber-500/50 text-amber-400 font-semibold shadow-2xl transition-all duration-300 transform translate-y-0';
+            toast.innerHTML = `<i class="fa-solid fa-bell mr-2"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // Bilingual Dictionary (Bulgarian & English)
+        let currentLang = 'bg';
+        const translations = {
+            bg: {
+                nav_home: "Начало",
+                nav_about: "За нас",
+                nav_menu: "Меню",
+                nav_atmosphere: "Атмосфера",
+                nav_reviews: "Отзиви",
+                nav_contact: "Контакти",
+                btn_reserve: "Резервирай маса",
+                hero_badge: "Център на Кърджали • Уютна лятна градина",
+                hero_title_1: "Вашето любимо място в сърцето на",
+                hero_subtitle: "Насладете се на изискано кафе, ароматни коктейли, изкушаващи предложения от кухнята и неповторима младежка атмосфера.",
+                btn_view_menu: "Разгледайте Менюто (EUR)",
+                info_hours_title: "Работно време",
+                info_hours_desc: "Отворено • Затваря в 01:00 ч.",
+                info_rating_title: "Google Рейтинг",
+                info_loc_title: "Локация",
+                about_tag: "ЗА НАС И АТМОСФЕРАТА",
+                about_title: "Мястото, където градският стил среща уюта",
+                about_desc1: "Разположен на ул. „Стефан Караджа“ 8 в самия център на Кърджали, бар „Инсайд“ е перфектното кътче за сутрешно кафе, следобедни срещи с приятели или незабравими вечери под звездите в нашата климатизирана и изключително чиста лятна градина.",
+                about_desc2: "С любезен персонал, модерна младежка атмосфера, страхотна музика и богато разнообразие от вкусни предложения, ние се грижим всеки посетител да се чувства като у дома си.",
+                feat_garden: "Климатизирана лятна градина",
+                feat_coffee: "Отлично кафе и напитки",
+                feat_sushi: "Суши и свежи салати",
+                feat_staff: "Любезен и бърз персонал",
+                menu_tag: "РАЗНООБРАЗНО МЕНЮ",
+                menu_title: "Вкусове, които ви привличат",
+                menu_subtitle: "Всички цени са посочени в евро (€) съгласно актуалните стандарти. Насладете се на селектирани ястия, напитки и десерти.",
+                cat_all: "Всички",
+                cat_coffee: "Кафе & Напитки",
+                cat_food: "Сандвичи & Тортили",
+                cat_pizza: "Пици & Ризото",
+                cat_sushi: "Суши & Азиатски",
+                cat_desserts: "Десерти & Шейкове",
+                item_pop: "Популярно",
+                item_fresh: "Свежо",
+                item_classic: "Класика",
+                item_spec: "Специалитет",
+                item_veg: "Вегетарианско",
+                item_sweet: "Десерт",
+                item_drink: "Напитки",
+                btn_order: "Поръчай към маса",
+                res_tag: "ОНЛАЙН РЕЗЕРВАЦИЯ",
+                res_title: "Запазете своята маса",
+                res_subtitle: "Попълнете формуляра по-долу за бърза резервация в бар „Инсайд“. Очакваме ви!",
+                form_name: "Вашето име",
+                form_phone: "Телефон за връзка",
+                form_date: "Дата",
+                form_time: "Час",
+                form_guests: "Брой гости",
+                form_notes: "Допълнителни изисквания (напр. лятна градина)",
+                form_submit: "Потвърди резервацията",
+                rev_tag: "ОТЗИВИ И РЕЙТИНГ",
+                rev_title: "Какво качват и казват нашите клиенти",
+                leave_rev_title: "Напишете вашия отзив",
+                rev_score: "Оценка (1 до 5 звезди)",
+                rev_text: "Вашият коментар",
+                rev_submit: "Изпрати отзив",
+                cont_tag: "КОНТАКТИ И ЛОКАЦИЯ",
+                cont_title: "Заповядайте при нас",
+                cont_subtitle: "Намираме се на комуникативно място в центъра на Кърджали. Очакваме ви за кафе, срещи и вечерни коктейли!",
+                cont_addr_title: "Адрес",
+                cont_phone_title: "Телефон за резервации",
+                cont_hours_title: "Работно време",
+                cont_hours_desc: "Понеделник - Неделя: 08:00 - 01:00 ч. (Отворено)",
+                btn_call: "Обадете се сега",
+                btn_directions: "Google Упътвания",
+                map_loc_name: "Бар „Инсайд“",
+                btn_open_map: "Отвори карта",
+                footer_rights: "© 2026 Бар „Инсайд“, Кърджали. Всички права запазени. ЦЕНИ В ЕВРО (€)."
+            },
+            en: {
+                nav_home: "Home",
+                nav_about: "About",
+                nav_menu: "Menu",
+                nav_atmosphere: "Atmosphere",
+                nav_reviews: "Reviews",
+                nav_contact: "Contact",
+                btn_reserve: "Reserve Table",
+                hero_badge: "Kardzhali Center • Cozy Summer Garden",
+                hero_title_1: "Your favorite spot in the heart of",
+                hero_subtitle: "Enjoy exquisite coffee, refreshing cocktails, tempting culinary dishes, and an unmatched youth-friendly lounge vibe.",
+                btn_view_menu: "View Menu (EUR)",
+                info_hours_title: "Operating Hours",
+                info_hours_desc: "Open • Closes at 01:00 AM",
+                info_rating_title: "Google Rating",
+                info_loc_title: "Location",
+                about_tag: "ABOUT & ATMOSPHERE",
+                about_title: "Where urban style meets ultimate comfort",
+                about_desc1: "Located at 8 Stefan Karadzha St in the very center of Kardzhali, Inside Bar is the ideal spot for morning coffee, afternoon hangouts, or unforgettable evenings under the stars in our air-conditioned summer garden.",
+                about_desc2: "With friendly staff, great music, and a rich selection of delicious items, we make sure every guest feels right at home.",
+                feat_garden: "Air-conditioned summer garden",
+                feat_coffee: "Great coffee & drinks",
+                feat_sushi: "Sushi & fresh salads",
+                feat_staff: "Friendly & attentive staff",
+                menu_tag: "COMPREHENSIVE MENU",
+                menu_title: "Flavors that call you back",
+                menu_subtitle: "All prices are listed in Euros (€) in accordance with current standards. Enjoy hand-selected dishes, beverages, and desserts.",
+                cat_all: "All Items",
+                cat_coffee: "Coffee & Drinks",
+                cat_food: "Sandwiches & Tortillas",
+                cat_pizza: "Pizza & Risotto",
+                cat_sushi: "Sushi & Asian",
+                cat_desserts: "Desserts & Shakes",
+                item_pop: "Popular",
+                item_fresh: "Fresh",
+                item_classic: "Classic",
+                item_spec: "Specialty",
+                item_veg: "Vegetarian",
+                item_sweet: "Dessert",
+                item_drink: "Beverages",
+                btn_order: "Order to Table",
+                res_tag: "ONLINE BOOKING",
+                res_title: "Reserve Your Table",
+                res_subtitle: "Fill out the form below for a quick reservation at Inside Bar. We look forward to seeing you!",
+                form_name: "Your Name",
+                form_phone: "Phone Number",
+                form_date: "Date",
+                form_time: "Time",
+                form_guests: "Number of Guests",
+                form_notes: "Additional requests (e.g. summer garden)",
+                form_submit: "Confirm Reservation",
+                rev_tag: "REVIEWS & RATINGS",
+                rev_title: "What our guests share and say",
+                leave_rev_title: "Write Your Review",
+                rev_score: "Rating (1 to 5 stars)",
+                rev_text: "Your Comment",
+                rev_submit: "Submit Review",
+                cont_tag: "CONTACT & LOCATION",
+                cont_title: "Visit Us",
+                cont_subtitle: "Centrally located in Kardzhali. Join us for coffee, friendly chats, and evening cocktails!",
+                cont_addr_title: "Address",
+                cont_phone_title: "Reservation Phone",
+                cont_hours_title: "Hours",
+                cont_hours_desc: "Monday - Sunday: 08:00 AM - 01:00 AM (Open)",
+                btn_call: "Call Now",
+                btn_directions: "Google Directions",
+                map_loc_name: "Inside Bar",
+                btn_open_map: "Open Map",
+                footer_rights: "© 2026 Inside Bar, Kardzhali. All rights reserved. PRICES IN EUROS (€)."
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'bg' ? 'en' : 'bg';
+            document.getElementById('lang-label').innerText = currentLang === 'bg' ? 'EN / БГ' : 'БГ / EN';
+            document.getElementById('lang-label-mob').innerText = currentLang === 'bg' ? 'EN/БГ' : 'БГ/EN';
+            
+            const keys = document.querySelectorAll('[data-i18n]');
+            keys.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[currentLang][key]) {
+                    el.innerText = translations[currentLang][key];
+                }
+            });
+        }
+    </script>
+</body>
+</html>
